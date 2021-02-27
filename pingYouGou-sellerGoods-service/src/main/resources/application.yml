@@ -1,0 +1,21 @@
+server:
+  port: 9101
+  servlet:
+    context-path: /pingYouGouService
+spring:
+  profiles:
+    include: mapper
+dubbo:
+  application:
+    name: pingYouGouService
+  registry:
+    address: zookeeper://47.98.35.82:2181
+    timeout: 1200000
+  protocol:
+    port: 2080
+  provider:
+    timeout: 1200000
+  consumer:
+    timeout: 1200000
+  scan:
+    base-packages: com.lemonzuo.sellergoods.serviceimpl

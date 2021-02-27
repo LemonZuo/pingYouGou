@@ -1,0 +1,29 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lemonzuo.mapper.SpecificationOptionMapper">
+    <resultMap id="SpecificationOptionBaseMap" type="com.lemonzuo.model.SpecificationOption">
+        <id property="optionId" column="option_id" javaType="java.lang.Long" jdbcType="BIGINT"></id>
+        <result property="optionName" column="option_name" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result property="orders" column="orders" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
+        <result property="specId" column="spec_id" javaType="java.lang.Long" jdbcType="BIGINT"></result>
+    </resultMap>
+    <insert id="addSpecificationOption" useGeneratedKeys="true" parameterType="com.lemonzuo.model.SpecificationOption" keyProperty="optionId" keyColumn="option_id">
+        INSERT INTO `tb_specification_option` (
+            `option_name`,
+            `spec_id`,
+            `orders`
+            )
+        VALUES (
+            #{optionName},
+            #{specId},
+            #{orders}
+            );
+    </insert>
+    <delete id="deleteSpecificationOptionBySpecId">
+        DELETE FROM
+            `tb_specification_option`
+        WHERE
+            `spec_id` = #{specId}
+    </delete>
+</mapper>

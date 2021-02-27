@@ -1,0 +1,68 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lemonzuo.mapper.TypeTemplateMapper">
+    <resultMap id="TypeTemplateBaseMap" type="com.lemonzuo.model.TypeTemplate">
+        <id property="id" column="id" javaType="java.lang.Long" jdbcType="BIGINT"></id>
+        <result property="brandIds" column="brand_ids" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result property="specIds" column="spec_ids" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result property="name" column="name" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result property="customAttributeItems" column="custom_attribute_items" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+    </resultMap>
+    <select id="findAllTypeTemplateInfo" resultType="com.lemonzuo.model.TypeTemplate">
+        SELECT
+            `id`,
+            `name`,
+            `spec_ids`,
+            `brand_ids`,
+            `custom_attribute_items`
+        FROM
+            `tb_type_template`
+    </select>
+
+    <select id="findIdAndName" resultType="com.lemonzuo.model.TypeTemplate">
+        SELECT
+            `id`,
+            `name`
+        FROM
+            `tb_type_template`
+    </select>
+
+    <insert id="addTypeTemplate" parameterType="com.lemonzuo.model.TypeTemplate" keyProperty="id" keyColumn="id">
+        INSERT INTO
+        `tb_type_template` (
+            `name`,
+            `spec_ids`,
+            `brand_ids`,
+            `custom_attribute_items`
+        )
+        VALUES
+        (
+            #{name},
+            #{specIds},
+            #{brandIds},
+            #{customAttributeItems}
+        );
+    </insert>
+
+    <select id="findAllTypeTemplateInfoById" resultType="com.lemonzuo.model.TypeTemplate">
+        SELECT
+            `id`,
+            `name`,
+            `spec_ids`,
+            `brand_ids`,
+            `custom_attribute_items`
+        FROM
+            `tb_type_template`
+        WHERE
+            `id` = #{id}
+    </select>
+
+    <!-- 删除模板 -->
+    <delete id="deleteTemplateById">
+        DELETE FROM
+           `tb_type_template`
+        WHERE
+            `id` = #{id}
+    </delete>
+</mapper>

@@ -1,0 +1,5 @@
+server:
+  port: 2048
+spring:
+  profiles:
+    include: mapper

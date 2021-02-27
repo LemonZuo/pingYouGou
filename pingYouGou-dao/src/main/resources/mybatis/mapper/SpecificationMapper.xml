@@ -1,0 +1,87 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lemonzuo.mapper.SpecificationMapper">
+    <resultMap id="SpecificationAllInfoMap" type="com.lemonzuo.model.Specification">
+        <id property="id" column="id" javaType="java.lang.Long" jdbcType="BIGINT"></id>
+        <result property="specName" column="spec_name" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <collection property="options" column="id" ofType="com.lemonzuo.model.SpecificationOption"
+                    javaType="java.util.List" fetchType="lazy"
+                    resultMap="com.lemonzuo.mapper.SpecificationOptionMapper.SpecificationOptionBaseMap"></collection>
+    </resultMap>
+
+    <sql id="findInfo">
+        SELECT
+        `id`,
+        `spec_name`
+        FROM
+        `db_pinyougou`.`tb_specification`
+        <trim prefix="WHERE" prefixOverrides="AND">
+            <if test="id != null and id != 0 ">
+                `id` = #{id}
+            </if>
+            <if test="specName != null and specName != ''">
+                AND `spec_name` LIKE CONCAT('%', #{specName}, '%')
+            </if>
+        </trim>
+    </sql>
+
+    <select id="findSpecification" parameterType="com.lemonzuo.model.Specification"
+            resultType="com.lemonzuo.model.Specification">
+        <include refid="findInfo"></include>
+    </select>
+
+    <select id="checkSpecification" parameterType="com.lemonzuo.model.Specification"
+            resultType="com.lemonzuo.model.Specification">
+        <include refid="findInfo"></include>
+    </select>
+
+    <insert id="addSpecification" parameterType="com.lemonzuo.model.Specification" useGeneratedKeys="true"
+            keyColumn="id" keyProperty="id">
+        INSERT INTO
+            `tb_specification` (`spec_name`)
+        VALUES
+            (#{specName}) ;
+    </insert>
+
+    <update id="updateSpecification" parameterType="com.lemonzuo.model.Specification">
+        UPDATE
+            `tb_specification`
+        SET
+            `id` = #{id},
+            `spec_name` = #{specName}
+        WHERE `id` = #{id} ;
+    </update>
+
+    <delete id="deleteSpecification">
+        DELETE
+        FROM
+            `tb_specification`
+        WHERE `id` = #{id} ;
+    </delete>
+
+    <!-- 查询分类和该分类下的选项 -->
+    <select id="findAllInfo" resultMap="SpecificationAllInfoMap">
+        SELECT
+            `specification`.*,
+            `specificationOption`.*
+        FROM
+            `tb_specification` AS `specification`
+        LEFT JOIN
+            `tb_specification_option` AS `specificationOption`
+        ON
+            `specification`.`id` = `specificationOption`.`spec_id`
+        WHERE
+            `specification`.`id` = #{id}
+        ORDER BY
+            `specification`.`id`, `specificationOption`.`orders`
+    </select>
+    <!-- 查询分类ID和分类名 -->
+    <select id="findSpecificationIdAndName" resultType="java.util.Map">
+        SELECT
+            `id`,
+            `spec_name` AS `text`
+        FROM
+            `tb_specification`
+    </select>
+</mapper>

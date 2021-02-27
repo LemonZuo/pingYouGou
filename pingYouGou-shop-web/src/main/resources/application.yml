@@ -1,0 +1,25 @@
+server:
+  port: 9202
+  servlet:
+    context-path: /pingYouGouShopWEB
+spring:
+  profiles:
+    include: mapper,fdfs
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+dubbo:
+  application:
+    name: pingYouGouShopWEB
+  registry:
+    address: zookeeper://47.98.35.82:2181
+    timeout: 1200000
+  protocol:
+    port: 2082
+  provider:
+    timeout: 1200000
+  consumer:
+    timeout: 1200000
+  scan:
+    base-packages: com.lemonzuo.shop

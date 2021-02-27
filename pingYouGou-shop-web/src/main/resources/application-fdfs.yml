@@ -1,0 +1,11 @@
+fdfs:
+  # 链接超时
+  connect-timeout: 600
+  # 读取时间
+  so-timeout: 600
+  # 生成缩略图参数
+  thumb-image:
+    width: 200
+    height: 200
+  tracker-list:
+    - 47.98.35.82:22122

@@ -1,0 +1,42 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lemonzuo.mapper.GoodsMapper">
+    <insert id="addGoods" parameterType="com.lemonzuo.model.Goods" keyColumn="goods_id" keyProperty="goodsId">
+        INSERT INTO `tb_goods` (
+            `seller_id`,
+            `goods_name`,
+            `default_item_id`,
+            `audit_status`,
+            `is_marketable`,
+            `brand_id`,
+            `caption`,
+            `item_cat_id`,
+            `second_item_cat_id`,
+            `third_item_cat_id`,
+            `small_pic`,
+            `price`,
+            `type_template_id`,
+            `is_enable_spec`,
+            `is_delete`
+        )
+        VALUES
+        (
+            #{sellerId},
+            #{goodsName},
+            #{defaultItemId},
+            #{auditStatus},
+            #{isMarketable},
+            #{brandId},
+            #{caption},
+            #{itemCatId},
+            #{secondItemCatId},
+            #{thirdItemCatId},
+            #{smallPic},
+            #{price},
+            #{typeTemplateId},
+            #{isEnableSpec},
+            #{isDelete}
+        ) ;
+    </insert>
+</mapper>

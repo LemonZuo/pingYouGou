@@ -1,0 +1,67 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lemonzuo.mapper.ItemCatMapper">
+    <select id="findItemCatByParentId" resultType="com.lemonzuo.model.ItemCat">
+        SELECT
+            `item_cat_id`,
+            `parent_id`,
+            `name`,
+            `type_id`
+        FROM
+            `tb_item_cat`
+        WHERE
+            `parent_id` = #{parentId}
+    </select>
+
+    <select id="findItemCatByItemCatId" resultType="com.lemonzuo.model.ItemCat">
+        SELECT
+            `item_cat_id`,
+            `parent_id`,
+            `name`,
+            `type_id`
+        FROM
+            `tb_item_cat`
+        WHERE
+            `item_cat_id` = #{itemCatId}
+    </select>
+
+    <select id="checkItemCatExist" resultType="java.lang.Integer" parameterType="java.lang.String">
+        SELECT
+            COUNT(`item_cat_id`)
+        FROM
+            `tb_item_cat`
+        WHERE
+            `name` = #{name}
+    </select>
+
+    <insert id="addItemCat" parameterType="com.lemonzuo.model.ItemCat" keyColumn="item_cat_id" keyProperty="itemCatId">
+      INSERT INTO
+          `tb_item_cat` (`parent_id`, `name`, `type_id`)
+      VALUES
+          (#{parentId}, #{name}, #{typeId})
+    </insert>
+
+    <delete id="deleteItemCatByItemCatId">
+        DELETE FROM
+            `tb_item_cat`
+        WHERE
+            `item_cat_id` = #{itemCatId}
+    </delete>
+    
+    <delete id="deleteItemCatByParentId">
+        DELETE FROM
+            `tb_item_cat`
+        WHERE
+            `parent_id` = #{parentId}
+    </delete>
+
+    <update id="modifyItemCat" parameterType="com.lemonzuo.model.ItemCat" keyColumn="item_cat_id" keyProperty="itemCatId">
+        UPDATE
+            `tb_item_cat`
+        SET
+            `name` = #{name}
+        WHERE
+            `item_cat_id` = #{itemCatId}
+    </update>
+</mapper>

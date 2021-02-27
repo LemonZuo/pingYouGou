@@ -1,0 +1,144 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lemonzuo.mapper.SellerMapper">
+    <insert id="addSeller" parameterType="com.lemonzuo.model.Seller">
+        INSERT INTO `tb_seller` (
+            `seller_id`,
+            `name`,
+            `nick_name`,
+            `password`,
+            `email`,
+            `mobile`,
+            `telephone`,
+            `status`,
+            `address_detail`,
+            `linkman_name`,
+            `linkman_qq`,
+            `linkman_mobile`,
+            `linkman_email`,
+            `license_number`,
+            `tax_number`,
+            `org_number`,
+            `address`,
+            `logo_pic`,
+            `brief`,
+            `create_time`,
+            `legal_person`,
+            `legal_person_card_id`,
+            `bank_user`,
+            `bank_name`
+            )
+        VALUES
+        (
+            #{sellerId},
+            #{name},
+            #{nickName},
+            #{password},
+            #{email},
+            #{mobile},
+            #{telephone},
+            #{status},
+            #{addressDetail},
+            #{linkmanName},
+            #{linkmanQq},
+            #{linkmanMobile},
+            #{linkmanEmail},
+            #{licenseNumber},
+            #{taxNumber},
+            #{orgNumber},
+            #{address},
+            #{logoPic},
+            #{brief},
+            #{createTime},
+            #{legalPerson},
+            #{legalPersonCardId},
+            #{bankUser},
+            #{bankName}
+          ) ;
+    </insert>
+
+    <!-- 查询商家账号基本信息 -->
+    <select id="findCountInfo" resultType="com.lemonzuo.model.Seller">
+        SELECT
+            `seller_id`,
+            `password`,
+            `status`
+        FROM
+            `tb_seller`
+        WHERE
+            `seller_id` = #{`sellerId`}
+    </select>
+
+    <select id="checkIsExist" resultType="java.lang.Integer">
+        SELECT
+            COUNT(1)
+        FROM
+             `tb_seller`
+        WHERE
+            `seller_id` = #{`sellerId`}
+    </select>
+
+    <!-- 查询商家基本信息 -->
+    <select id="findSellerInfo" parameterType="com.lemonzuo.model.Seller" resultType="com.lemonzuo.model.Seller">
+        SELECT
+            `seller_id`,
+            `name`,
+            `nick_name`,
+            `telephone`,
+            `linkman_name`
+        FROM
+            `tb_seller`
+        <trim prefix="WHERE" suffixOverrides="AND">
+            <if test="status != null and status != ''">
+                `status` = #{status} AND
+            </if>
+        </trim>
+    </select>
+
+    <!-- 查询商家详细信息 -->
+    <select id="findSellerDetialInfo" parameterType="java.lang.String" resultType="com.lemonzuo.model.Seller">
+        SELECT
+            `seller_id`,
+            `name`,
+            `mobile`,
+            `telephone`,
+            `address_detail`,
+            `linkman_name`,
+            `linkman_qq`,
+            `linkman_mobile`,
+            `linkman_email`,
+            `license_number`,
+            `tax_number`,
+            `org_number`,
+            `legal_person`,
+            `legal_person_card_id`,
+            `bank_name`,
+            `bank_branch`,
+            `bank_user`
+        FROM
+            `tb_seller`
+        WHERE
+            `seller_id` = #{`sellerId`}
+    </select>
+    <update id="updateSeller" parameterType="com.lemonzuo.model.Seller">
+        UPDATE
+            `tb_seller`
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null and name != ''">
+                `name` = #{name},
+            </if>
+            <if test="nickName != null and nickName != ''">
+                `nick_name` = #{nickName},
+            </if>
+            <if test="status != null and status != ''">
+                `status` = #{status},
+            </if>
+        </trim>
+        <trim prefix="WHERE">
+            <if test="sellerId != null and sellerId != ''">
+                `seller_id` = #{sellerId}
+            </if>
+        </trim>
+    </update>
+</mapper>

@@ -1,0 +1,68 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lemonzuo.mapper.BrandMapper">
+    <!-- 查询品牌信息 -->
+    <select id="findAllBrand" resultType="com.lemonzuo.model.Brand" parameterType="com.lemonzuo.model.Brand">
+        SELECT
+            `id`,
+            `name`,
+            `first_char`
+        FROM
+            `tb_brand`
+        <trim prefix="WHERE" prefixOverrides="AND">
+            <if test="name != null and name != '' and name != 'null'">
+                `name` LIKE CONCAT('%', #{name}, '%')
+            </if>
+            <if test="firstChar != null and firstChar != '' and firstChar != 'null'">
+                AND `first_char` = #{firstChar}
+            </if>
+        </trim>
+    </select>
+    <!-- 新增品牌 -->
+    <insert id="addBrand" parameterType="com.lemonzuo.model.Brand" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        INSERT INTO
+            `tb_brand` (`name`, `first_char`)
+        VALUES
+          (#{name}, #{firstChar})
+    </insert>
+
+    <select id="checkBrand" resultType="com.lemonzuo.model.Brand">
+        SELECT
+            `id`,
+            `name`,
+            `first_char`
+        FROM
+            `tb_brand`
+        WHERE
+            `name` = #{brandName}
+    </select>
+
+    <update id="updateBrand" parameterType="com.lemonzuo.model.Brand">
+        UPDATE
+            `tb_brand`
+        SET
+            `id` = #{id},
+            `name` = #{name},
+            `first_char` = #{firstChar}
+        WHERE `id` = #{id};
+    </update>
+
+    <delete id="deleteBrand">
+        DELETE
+        FROM
+            `tb_brand`
+        WHERE `id` = #{brandId};
+    </delete>
+
+    <!---->
+    <select id="findIdAndName" resultType="java.util.Map">
+        SELECT
+            `id`,
+            `name` AS `text`
+        FROM
+            `tb_brand`;
+    </select>
+
+
+</mapper>

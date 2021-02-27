@@ -1,0 +1,13 @@
+spring:
+  profiles: mapper
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://47.98.35.82:3308/db_pinyougou?useSSL=false
+    username: root
+    password: 980724
+mybatis:
+  mapper-locations: classpath:mybatis/mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+    use-generated-keys: true
